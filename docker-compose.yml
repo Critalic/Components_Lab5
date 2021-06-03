@@ -1,0 +1,36 @@
+services:
+    logger:
+        image: lab5-consumer
+        container_name: "logger1"
+        depends_on:
+            - "rabbitmq"
+        build:
+            context: .
+            dockerfile: ConsumerDockerfile.Dockerfile
+        restart: always
+
+    lab5-producer:
+        image: lab5-producer:latest
+        container_name: "producer1"
+        depends_on:
+            - "rabbitmq"
+        build:
+            context: .
+            dockerfile: ProducerDockerfile.Dockerfile
+        restart: always
+
+
+
+    rabbitmq: # login guest:guest
+        image: rabbitmq:3-management
+        hostname: "rabbitmq"
+        container_name: "rabbitmq1"
+        labels:
+          NAME: "rabbitmq"
+        ports:
+            - "7801:4369"
+            - "7802:5671"
+            - "7803:5672"
+            - "7804:25672"
+            - "7805:15671"
+            - "7806:15672"
